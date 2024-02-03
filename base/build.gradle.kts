@@ -1,6 +1,8 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+
 }
 
 android {
@@ -8,7 +10,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        minSdk = 22
+        minSdk = 21
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -37,10 +39,26 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    api("androidx.core:core-ktx:1.12.0")
+    api("androidx.appcompat:appcompat:1.6.1")
+    api("com.google.android.material:material:1.11.0")
+    api("junit:junit:4.13.2")
+    androidTestApi("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    //material design dependency
+    api("androidx.constraintlayout:constraintlayout:2.1.4")
+    api("androidx.legacy:legacy-support-v4:1.0.0")
+    api("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    api("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+
+    //navigation dependencies
+    api("androidx.navigation:navigation-fragment-ktx:2.7.6")
+    api("androidx.navigation:navigation-ui-ktx:2.7.6")
+
+
+    //dagger dependenciesg
+    api("com.google.dagger:dagger:2.44.2")
+    kapt("com.google.dagger:dagger-compiler:2.44.2")
+    kapt("com.google.dagger:dagger-android-processor:2.44.2")
 }
