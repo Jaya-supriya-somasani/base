@@ -2,7 +2,6 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
-
 }
 
 android {
@@ -56,12 +55,13 @@ dependencies {
     api("androidx.navigation:navigation-fragment-ktx:2.7.6")
     api("androidx.navigation:navigation-ui-ktx:2.7.6")
 
+    implementation( "org.jetbrains.kotlin:kotlin-reflect:1.8.22")
+
 
     //dagger dependencies
-    api("com.google.dagger:dagger:2.44.2")
+//    implementation("com.google.dagger:dagger:2.44.2")
+    implementation ("com.google.dagger:dagger-android:2.44.2")
+//    implementation("com.google.dagger:dagger-android-support:2.44.2")
     kapt("com.google.dagger:dagger-compiler:2.44.2")
-    kapt("com.google.dagger:dagger-android-processor:2.44.2")
-
-    api ("com.google.dagger:dagger-android:2.44.2")
-    api("com.google.dagger:dagger-android-support:2.44.2")
+//    kapt("com.google.dagger:dagger-android-processor:2.44.2")
 }
