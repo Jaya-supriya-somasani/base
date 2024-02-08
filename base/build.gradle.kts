@@ -26,6 +26,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -55,13 +56,13 @@ dependencies {
     api("androidx.navigation:navigation-fragment-ktx:2.7.6")
     api("androidx.navigation:navigation-ui-ktx:2.7.6")
 
-    implementation( "org.jetbrains.kotlin:kotlin-reflect:1.8.22")
+    implementation( "org.jetbrains.kotlin:kotlin-reflect:1.9.0")
 
 
     //dagger dependencies
-//    implementation("com.google.dagger:dagger:2.44.2")
-    implementation ("com.google.dagger:dagger-android:2.44.2")
-//    implementation("com.google.dagger:dagger-android-support:2.44.2")
+    implementation("com.google.dagger:dagger:2.44.2")
+    implementation("com.google.dagger:dagger-android:2.44.2")
+    implementation("com.google.dagger:dagger-android-support:2.44.2")
     kapt("com.google.dagger:dagger-compiler:2.44.2")
-//    kapt("com.google.dagger:dagger-android-processor:2.44.2")
+    kapt("com.google.dagger:dagger-android-processor:2.44.2")
 }
