@@ -12,6 +12,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.Navigation
+import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import dagger.android.support.AndroidSupportInjection
@@ -35,12 +36,6 @@ abstract class BaseFragment<Binding : ViewDataBinding, VM : BaseViewModel> : Fra
 
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
-
-    /**
-     * Analytics screen name
-     * override this variable for recording screen time of this screen
-     */
-    protected abstract val currentScreenName: Navigation
 
     lateinit var dataBinding: Binding
 
@@ -117,6 +112,9 @@ abstract class BaseFragment<Binding : ViewDataBinding, VM : BaseViewModel> : Fra
     }
     abstract fun initObservers(viewLifecycleOwner: LifecycleOwner)
     abstract fun setUp()
+    override fun androidInjector(): AndroidInjector<Any> {
+        return androidInjector
+    }
 
 //    fun showToast(toastMessage: String, toastType: ToastType = ToastType.NONE) {
 //        viewModel.showToastMessage(toastMessage, toastType)

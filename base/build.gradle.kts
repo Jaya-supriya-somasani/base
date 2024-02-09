@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-android")
     id("kotlin-kapt")
 }
 
@@ -39,7 +40,7 @@ android {
 
 dependencies {
 
-    api("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.core:core-ktx:1.9.0")
     api("androidx.appcompat:appcompat:1.6.1")
     api("com.google.android.material:material:1.11.0")
     api("junit:junit:4.13.2")
@@ -55,8 +56,6 @@ dependencies {
     //navigation dependencies
     api("androidx.navigation:navigation-fragment-ktx:2.7.6")
     api("androidx.navigation:navigation-ui-ktx:2.7.6")
-
-    implementation( "org.jetbrains.kotlin:kotlin-reflect:1.9.0")
 
 
     //dagger dependencies
