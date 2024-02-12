@@ -1,5 +1,8 @@
 package com.example.base.utils
 
+import android.util.Log
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.example.base.BaseViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
@@ -12,6 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
+import kotlin.coroutines.cancellation.CancellationException
 
 fun CoroutineScope.safeLaunch(
     context: CoroutineContext = EmptyCoroutineContext,
@@ -19,6 +23,25 @@ fun CoroutineScope.safeLaunch(
     block: suspend CoroutineScope.() -> Unit
 ): Job {
     return launch(context + coroutineExceptionHandler, start = start, block = block)
+}
+
+fun LifecycleOwner.safeLaunch(
+    context: CoroutineContext = EmptyCoroutineContext,
+    start: CoroutineStart = CoroutineStart.DEFAULT,
+    showToastOnError: Boolean = true,
+    block: suspend CoroutineScope.() -> Unit
+): Job {
+    return lifecycleScope.safeLaunch(context, start) {
+        try {
+            block()
+        } catch (e: Exception) {
+            Log.e("Error", e.toString())
+            if (showToastOnError && e !is CancellationException) {
+//                showToast(e)
+            }
+            throw e
+        }
+    }
 }
 
 val applicationScope =
