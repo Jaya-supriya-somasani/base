@@ -1,8 +1,12 @@
 package com.example.base.utils
 
 import android.util.Log
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.whenResumed
+import androidx.lifecycle.whenStateAtLeast
 import com.example.base.BaseViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
@@ -10,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -43,6 +48,45 @@ fun LifecycleOwner.safeLaunch(
         }
     }
 }
+
+/**
+ * Launches and runs the given block when the [Lifecycle] controlling this
+ * [LifecycleCoroutineScope] is at least in [Lifecycle.State.RESUMED] state.
+ *
+ * The returned [Job] will be cancelled when the [Lifecycle] is destroyed.
+ * @see Lifecycle.whenResumed
+ * @see Lifecycle.coroutineScope
+ */
+fun LifecycleOwner.safeLaunchWhenResumed(
+    showToastOnError: Boolean = true,
+    block: suspend CoroutineScope.() -> Unit
+) = safeLaunch {
+    lifecycle.whenStateAtLeast(Lifecycle.State.RESUMED) {
+        try {
+            block()
+        } catch (e: Exception) {
+            if (showToastOnError) {
+//                showToast(e)
+            }
+            throw e
+        }
+    }
+}
+
+suspend inline fun ReceiveChannel<Unit>.collect(crossinline action: suspend () -> Unit) {
+    try {
+        val iterator = iterator()
+        while (iterator.hasNext()) {
+            iterator.next()
+            action()
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        throw e
+    }
+}
+
+fun <T> Channel<T>.sendValue(value: T) = runCatching { this.trySend(value) }
 
 val applicationScope =
     CoroutineScope(SupervisorJob() + Dispatchers.Main + coroutineExceptionHandler)
